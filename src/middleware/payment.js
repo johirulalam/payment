@@ -1,6 +1,5 @@
 const StripeGateway = require('../gateways/stripe');
 const PayPalGateway = require('../gateways/paypal');
-const RazorpayGateway = require('../gateways/razorpay');
 const PaddleGateway = require('../gateways/paddle');
 
 class PaymentMiddleware {
@@ -8,7 +7,6 @@ class PaymentMiddleware {
         this.gateways = {
             stripe: new StripeGateway(config.stripe.secretKey),
             paypal: new PayPalGateway(config.paypal.clientId, config.paypal.clientSecret),
-            razorpay: new RazorpayGateway(config.razorpay.keyId, config.razorpay.keySecret),
             paddle: new PaddleGateway({
                 vendorId: config.paddle.vendorId,
                 vendorAuthCode: config.paddle.vendorAuthCode,
