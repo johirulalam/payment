@@ -1,17 +1,18 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const { init } = require('payment');
+const config = require('payment/config/config');
 
 const app = express();
 app.use(bodyParser.json());
 
 const payment = init({
-    stripe: { secretKey: 'your-stripe-secret' },
-    paypal: { clientId: 'your-paypal-client-id', clientSecret: 'your-paypal-client-secret' },
+    stripe: { secretKey: config.stripe.secretKey },
+    paypal: { clientId: config.paypal.clientId, clientSecret: config.paypal.clientSecret },
     paddle: {
-        vendorId: 'your-paddle-vendor-id',
-        vendorAuthCode: 'your-paddle-vendor-auth-code',
-        publicKey: 'your-paddle-public-key',
+        vendorId: config.paddle.vendorId,
+        vendorAuthCode: config.paddle.vendorAuthCode,
+        publicKey: config.paddle.publicKey,
     },
 });
 

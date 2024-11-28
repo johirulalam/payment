@@ -1,17 +1,25 @@
 {
   "name": "payment",
   "version": "1.0.0",
-  "description": "",
+  "description": "A payment integration service with Stripe, PayPal, and other payment gateways.",
   "main": "src/index.js",
   "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/johirulalam/payment.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "payment",
+    "stripe",
+    "paypal",
+    "integration",
+    "express"
+  ],
+  "author": "Your Name",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/johirulalam/payment/issues"
@@ -23,6 +31,7 @@
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
     "paypal-rest-sdk": "^1.8.1",
-    "stripe": "^17.4.0"
+    "stripe": "^17.4.0",
+    "nodemon": "^2.0.20"
   }
 }
