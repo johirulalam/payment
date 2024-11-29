@@ -1,4 +1,4 @@
-const paymentAdapterRegistry = require('../../../services/payments/PaymentProcessor');
+const PaymentProcessor = require('../../../services/payments/PaymentProcessor');
 
 class StripeProcessor extends PaymentProcessor {
     constructor(credentials) {
@@ -23,6 +23,5 @@ class StripeProcessor extends PaymentProcessor {
     }
   }
   
-  // Register StripeProcessor
-  paymentAdapterRegistry.registerProvider("stripe", StripeProcessor);
+module.exports = StripeProcessor;
   

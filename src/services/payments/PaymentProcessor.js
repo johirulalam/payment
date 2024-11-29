@@ -4,7 +4,7 @@ class PaymentProcessor {
     }
   
     refundPayment(transactionId, amount) {
-      throw new Error("refundPayment method must be implemented");
+      throw new Error("refund Payment method must be implemented");
     }
   }
   

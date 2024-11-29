@@ -1,4 +1,4 @@
-const paymentAdapterRegistry = require('../../../services/payments/PaymentProcessor');
+const PaymentProcessor = require('../../../services/payments/PaymentProcessor');
 
 class PayPalProcessor extends PaymentProcessor {
     constructor(credentials) {
@@ -28,6 +28,4 @@ class PayPalProcessor extends PaymentProcessor {
     }
   }
   
-  // Register PayPalProcessor
-  paymentAdapterRegistry.registerProvider("paypal", PayPalProcessor);
-  
+  module.exports = PayPalProcessor;

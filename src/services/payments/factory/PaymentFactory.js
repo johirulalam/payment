@@ -1,9 +1,10 @@
-const paymentAdapterRegistry = require('../registry/PaymentRegistry');
+const paymentRegistry = require('../registry/PaymentRegistry');
 
 class PaymentFactory {
   static createAdapter(provider, credentials) {
-    return paymentAdapterRegistry.getAdapter(provider, credentials);
+    return paymentRegistry.getAdapter(provider, credentials);
   }
 }
 
-module.exports = PaymentFactory;
+
+module.exports = { PaymentFactory };
