@@ -1,8 +1,8 @@
 const paymentRegistry = require('../registry/PaymentRegistry');
 
 class PaymentFactory {
-  static createAdapter(provider, credentials) {
-    return paymentRegistry.getAdapter(provider, credentials);
+  static createAdapter(provider) {
+    return paymentRegistry.getAdapter(provider);
   }
 }
 

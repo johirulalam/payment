@@ -11,14 +11,14 @@ class PaymentRegistry {
       this.adapters.set(providerName, adapterClass);
     }
   
-    getAdapter(providerName, credentials) {
+    getAdapter(providerName) {
       console.log(`Looking for provider: ${providerName}`);
       const AdapterClass = this.adapters.get(providerName);
       
       if (!AdapterClass) {
         throw new Error(`Provider ${providerName} is not registered.`);
       }
-      return new AdapterClass(credentials);
+      return new AdapterClass();
     }
   }
   
