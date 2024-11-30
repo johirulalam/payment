@@ -1,10 +1,10 @@
 const PaymentProcessor = require('../../../services/payments/PaymentProcessor');
-
+const config = require('../../../config/app/stripe');
 class StripeProcessor extends PaymentProcessor {
 
   constructor(credentials) {
     super();
-    this.stripe = require('stripe')(credentials.apiKey);
+    this.stripe = require('stripe')(config.credentials.secretKey);
   }
 
   // Create payment intent

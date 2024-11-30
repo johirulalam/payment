@@ -1,5 +1,6 @@
-require('dotenv').config();  // Load environment variables from .env file
+require('dotenv').config();
 
+console.log(process.env.PAYPAL_CLIENT_SECRET)
 module.exports = {
   stripe: {
     secretKey: process.env.STRIPE_SECRET_KEY
