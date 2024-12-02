@@ -1,7 +1,7 @@
 const StripeAdapter = require('../../drivers/stripe/payments/StripeProcessor');
 const PaddleAdapter = require('../../drivers/paypal/payments/PayPalProcessor');
 const PayPalAdapter = require('../../drivers/paddle/payments/PaddleProcessor');
-const paymentRegistry = require('./registry/PaymentRegistry');
+const PaymentRegistry = require('./registry/PaymentRegistry');
 const PaymentFactory = require('./factory/PaymentFactory');
 
 // Register default adapters
@@ -13,5 +13,5 @@ console.log('Payment providers registered.');
 
 module.exports = {
   PaymentFactory,
-  paymentRegistry, // For custom registration
+  PaymentRegistry, // For custom registration
 };
