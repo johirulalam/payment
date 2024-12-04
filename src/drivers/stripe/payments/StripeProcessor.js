@@ -8,7 +8,7 @@ class StripeProcessor extends PaymentProcessor {
   }
 
   // Create payment intent
-  async processPayment(amount, currency, options) {
+  async processPayment(payload) {
     try {
 
       // Optionally create a payment link to complete the payment
@@ -29,6 +29,101 @@ class StripeProcessor extends PaymentProcessor {
       throw new Error('Payment processing failed.');
     }
   }
+
+  async customAmountPaymentLinkGenerate(payload) {
+    try {
+
+      const paymentLink = await this.stripe.paymentLinks.create({
+        line_items: [
+          {
+            price_data: {
+                currency: payload['currency'],
+                unit_amount: payload['amount'], /** The amount in cents */
+                product_data: {
+                    name: payload['product']['title'],
+                },
+            },
+            quantity: payload['quantity'],
+          },
+        ],
+        allow_promotion_codes : payload['is_allow_promotion_code'],
+        metadata: payload['metadata'],
+        mode: payload['mode'] /** mode will be payment or subscription */
+
+      });
+
+      return {
+        paymentLinkUrl: paymentLink.url,
+      };
+
+    } catch (error) {
+      console.error('custom amount payment link generate:', error);
+      throw new Error('custom amount payment link generate.');
+    }
+  }
+
+  async paymentLinkGenerate(payload) {
+    try {
+
+      const paymentLink = await this.stripe.paymentLinks.create({
+        line_items: [
+          payload['items'] /** here items will be { price : 'price_1QQ1N1AXDYVTcVOpf2CcVw3z' , quantity: 1 } */
+        ],
+        allow_promotion_codes : payload['is_allow_promotion_code'],
+        metadata: payload['metadata'],
+        mode: payload['mode'] /** mode will be payment or subscription */
+      });
+
+      return {
+        paymentLinkUrl: paymentLink.url,
+      };
+    } catch (error) {
+      console.error('Error processing payment:', error);
+      throw new Error('Payment processing failed.');
+    }
+  }
+
+  async payWhatCustomerWant(payload) {
+    try {
+
+      /** create product */
+      const product = await stripe.products.create({
+        name: payload['name'],
+      });
+
+      /** create price of the product */
+      const price = await stripe.prices.create({
+        currency: 'usd',
+        custom_unit_amount: {
+          enabled: true,
+        },
+        product: product.id,
+      });
+
+      const session = await stripe.checkout.sessions.create({
+        cancel_url: payload['cancel_url'],
+        line_items: [
+          {
+            price: price.id,
+            quantity: 1, /** always will be 1 */
+          },
+        ],
+        metadata: payload['metadata'],
+        mode: 'payment',
+        success_url: payload['success_url'],
+      });
+
+
+      return {
+        paymentLinkUrl: paymentLink.url,
+      };
+
+    } catch (error) {
+      console.error('Error processing payment:', error);
+      throw new Error('Payment processing failed.');
+    }
+  }
+
 
   // Refund payment
   async refundPayment(transactionId, amount) {
