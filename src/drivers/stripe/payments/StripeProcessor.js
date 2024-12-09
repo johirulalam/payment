@@ -8,33 +8,88 @@ class StripeProcessor extends PaymentProcessor {
   }
 
   // Create payment intent
-  async processPayment(payload) {
+  async checkout(payload) {
     try {
-
-      // Optionally create a payment link to complete the payment
-      const paymentLink = await this.stripe.paymentLinks.create({
-        line_items: [{
-          price: 'price_1QQ1N1AXDYVTcVOpf2CcVw3z',
-          quantity: 1,
-        }],
+      /** Extract payload properties */
+      const {
+        has_price_id,
+        currency,
+        amount,
+        product,
+        quantity,
+        is_allow_promotion_code,
+        metadata,
+        mode,
+        success_url,
+        cancel_url,
+      } = payload;
+  
+      if (typeof has_price_id === 'undefined') {
+        throw new Error('The "has_price_id" property is required.');
+      }
+      if (typeof success_url === 'undefined') {
+        throw new Error('The "success_url" property is required.');
+      }
+      if (!['payment', 'subscription'].includes(mode)) {
+        throw new Error('The "mode" property must be either "payment" or "subscription".');
+      }
+  
+      let line_items;
+  
+      if (has_price_id) {
+        line_items = [
+          {
+            price: 'price_1QQ1N1AXDYVTcVOpf2CcVw3z', // Replace with actual price ID
+            quantity: quantity,
+          },
+        ];
+      } else {
+        line_items = [
+          {
+            price_data: {
+              currency: currency,
+              unit_amount: amount, // The amount in cents
+              product_data: {
+                name: product?.title ?? 'default product',
+              },
+            },
+            quantity: quantity,
+          },
+        ];
+      }
+  
+      // Create a checkout session
+      const paymentLink = await this.stripe.checkout.sessions.create({
+        // payment_method_types: ['card'], // Add other payment methods as needed
+        line_items: line_items,
+        allow_promotion_codes: is_allow_promotion_code,
+        metadata: metadata,
+        mode: mode, // Mode will be 'payment' or 'subscription'
+        success_url: success_url ?? 'https://doplac.com',
+        cancel_url: cancel_url,
       });
-
-
+  
       // Return payment link URL
       return {
         paymentLinkUrl: paymentLink.url,
       };
     } catch (error) {
-      console.error('Error processing payment:', error);
+      console.error('Error processing payment:', error.message);
       throw new Error('Payment processing failed.');
     }
   }
+  
 
-  async customAmountPaymentLinkGenerate(payload) {
+  async paymentLinkGenerate(payload) {
     try {
 
-      const paymentLink = await this.stripe.paymentLinks.create({
-        line_items: [
+      if(payload['has_price_id'] == true){
+        line_items = [{
+          price: 'price_1QQ1N1AXDYVTcVOpf2CcVw3z',
+          quantity: 1,
+        }]
+      }else{
+        line_items = [
           {
             price_data: {
                 currency: payload['currency'],
@@ -45,33 +100,16 @@ class StripeProcessor extends PaymentProcessor {
             },
             quantity: payload['quantity'],
           },
-        ],
-        allow_promotion_codes : payload['is_allow_promotion_code'],
-        metadata: payload['metadata'],
-        mode: payload['mode'] /** mode will be payment or subscription */
-
-      });
-
-      return {
-        paymentLinkUrl: paymentLink.url,
-      };
-
-    } catch (error) {
-      console.error('custom amount payment link generate:', error);
-      throw new Error('custom amount payment link generate.');
-    }
-  }
-
-  async paymentLinkGenerate(payload) {
-    try {
+        ]
+      }
 
       const paymentLink = await this.stripe.paymentLinks.create({
-        line_items: [
-          payload['items'] /** here items will be { price : 'price_1QQ1N1AXDYVTcVOpf2CcVw3z' , quantity: 1 } */
-        ],
+        line_items: line_items,
         allow_promotion_codes : payload['is_allow_promotion_code'],
         metadata: payload['metadata'],
-        mode: payload['mode'] /** mode will be payment or subscription */
+        mode: payload['mode'], /** mode will be payment or subscription */
+        success_url: payload['success_url'],
+        success_url: payload['success_url'],
       });
 
       return {
@@ -141,3 +179,5 @@ class StripeProcessor extends PaymentProcessor {
 }
 
 module.exports = StripeProcessor;
+
+

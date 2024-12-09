@@ -8,7 +8,7 @@ class PayPalProcessor extends PaymentProcessor {
       this.client = new this.paypal.core.PayPalHttpClient(environment);
     }
   
-    async processPayment(amount, currency, options) {
+    async checkout(amount, currency, options) {
       const request = new this.paypal.orders.OrdersCreateRequest();
       request.prefer("return=representation");
       request.requestBody({

@@ -1,5 +1,5 @@
 class PaymentProcessor {
-    processPayment(amount, currency, options) {
+    checkout(amount, currency, options) {
       throw new Error("processPayment method must be implemented");
     }
   

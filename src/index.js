@@ -4,8 +4,24 @@ const { PaymentFactory } = require('./services/payments/factory/PaymentFactory')
 console.log('PaymentFactory:', PaymentFactory);
 
 async function processPayment() {
-  const adapter = PaymentFactory.createAdapter('stripe');
-  const result = await adapter.processPayment(100, 'USD', { paymentMethodId: 'pm_card_visa' });
+
+  payload = {
+    amount: 100,
+    currency: 'USD',
+    quantity: 1,
+    has_price_id: false,
+    mode: 'payment',
+    success_url: 'https://doplac.com',
+    webhook_url: 'https://doplac.com'
+    
+  }
+  // const adapter = PaymentFactory.createAdapter('stripe');
+  // const result = await adapter.checkout(payload);
+
+  const adapter = PaymentFactory.createAdapter('paddle');
+  const result = await adapter.checkout(payload);
+
+
   console.log(result);
 }
 

@@ -6,5 +6,7 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 module.exports = {
   credentials: {
     secretKey: process.env.STRIPE_SECRET_KEY,
-  }
+  },
+
+  webhook: process.env.STRIPE_WEBHOOK_URL,
 };
