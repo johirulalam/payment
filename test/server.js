@@ -1,4 +1,4 @@
-const { PaymentFactory, WebhookProcessor } = require('payment');
+const { PaymentFactory, WebhookFactory } = require('sayed-payment');
 
 const express = require('express')
 const app = express()
@@ -39,18 +39,23 @@ app.get('/pay', async (req, res) => {
 });
 
 
-app.post("/webhook", express.json(), async (req, res) => {
+app.post("/webhook", express.raw({ type: 'application/json' }), async (req, res) => {
     try {
+
+        
         console.log("Received webhook request:", {
             headers: req.headers,
             body: req.body,
         });
 
+        // const stripeSignature = req.headers['stripe-signature'];
+        // console.log("Stripe Signature:", stripeSignature);
+
         // Initialize the WebhookProcessor with headers
-        const processor = new WebhookProcessor(req.headers);
+        const adapter = WebhookFactory.createAdapter(req.headers);
 
         // Process the payload: validate and transform
-        const transformedData = await processor.process(req.body, req.headers);
+        const transformedData = await adapter.process(req.body, req.headers);
 
         console.log("Transformed Data:", transformedData);
 
