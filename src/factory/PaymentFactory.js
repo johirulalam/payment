@@ -1,4 +1,4 @@
-const paymentRegistry = require('../registry/PaymentRegistry');
+const paymentRegistry = require('../services/registry/PaymentRegistry');
 
 class PaymentFactory {
   static createAdapter(provider) {
