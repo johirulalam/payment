@@ -1,5 +1,5 @@
 const ProviderIdentifier = require("./ProviderIdentifier");
-const paymentRegistry = require("../services/registry/PaymentRegistry");
+const paymentRegistry = require("../../registry/PaymentRegistry");
 
 class WebhookProcessor {
     constructor(headers) {

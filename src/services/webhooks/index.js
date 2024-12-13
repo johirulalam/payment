@@ -1,17 +1,15 @@
 const StripeHandler = require('../../drivers/stripe/webhooks/StripeHandler');
 const PaddleHandler = require('../../drivers/paddle/webhooks/PaddleHandler');
 const PayPalHandler = require('../../drivers/paypal/webhooks/PayPalHandler');
-const PaymentRegistry = require('../../registry/PaymentRegistry');
-const PaymentFactory = require('../../factory/PaymentFactory');
+const WebhookRegistry = require('../../registry/WebhookRegistry');
 
 // Register default adapters
-PaymentRegistry.registerProvider('stripe', StripeHandler);
-PaymentRegistry.registerProvider('paddle', PaddleHandler);
-PaymentRegistry.registerProvider('paypal', PayPalHandler);
+WebhookRegistry.registerProvider('stripe', StripeHandler);
+WebhookRegistry.registerProvider('paddle', PaddleHandler);
+WebhookRegistry.registerProvider('paypal', PayPalHandler);
 
-console.log('Payment providers registered.');
+console.log('Webhook providers registered.');
 
 module.exports = {
-  PaymentFactory,
-  PaymentRegistry, // For custom registration
+  WebhookRegistry, // For custom registration
 };
