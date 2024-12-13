@@ -65,7 +65,7 @@ class StripeProcessor extends PaymentProcessor {
         allow_promotion_codes: is_allow_promotion_code,
         metadata: metadata,
         mode: mode, // Mode will be 'payment' or 'subscription'
-        success_url: success_url ?? 'https://doplac.com',
+        success_url: success_url,
         cancel_url: cancel_url,
       });
   

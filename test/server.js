@@ -21,8 +21,8 @@ app.get('/pay', async (req, res) => {
             quantity: 1,
             has_price_id: false,
             mode: 'payment',
-            success_url: 'https://doplac.com',
-            webhook_url: 'https://doplac.com',
+            success_url: 'https://479e-27-147-224-104.ngrok-free.app/',
+            webhook_url: 'https://479e-27-147-224-104.ngrok-free.app/',
         };
 
         // Use the desired payment adapter
