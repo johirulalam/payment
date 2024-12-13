@@ -1,6 +1,3 @@
-// const { PaymentFactory } = require('payment').services.payments.factory;
-// const { WebhookProcessor } = require('payment').services.webhooks.processor;
-
 const { PaymentFactory, WebhookProcessor } = require('payment');
 
 const express = require('express')
