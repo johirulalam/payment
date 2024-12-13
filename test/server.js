@@ -42,26 +42,44 @@ app.get('/pay', async (req, res) => {
 });
 
 
-app.post('/webhook', express.json(), (req, res) => {
+app.post("/webhook", express.json(), async (req, res) => {
     try {
-        console.log('Received webhook request');
+        console.log("Received webhook request:", {
+            headers: req.headers,
+            body: req.body,
+        });
 
         // Initialize the WebhookProcessor with headers
         const processor = new WebhookProcessor(req.headers);
 
         // Process the payload: validate and transform
-        const transformedData = processor.process(req.body, req.headers);
+        const transformedData = await processor.process(req.body, req.headers);
 
         console.log("Transformed Data:", transformedData);
 
-        res.status(200).send("Webhook processed successfully.");
+        // Send a structured response
+        res.status(200).json({
+            success: true,
+            message: "Webhook processed successfully.",
+            data: transformedData,
+        });
     } catch (error) {
-        console.error("Error processing webhook:", error.message);
-        res.status(400).send({
-            error: error.message,
+        console.error("Error processing webhook:", {
+            message: error.message,
+            stack: error.stack,
+        });
+
+        // Send a structured error response
+        res.status(400).json({
+            success: false,
+            error: {
+                message: error.message,
+            },
         });
     }
 });
+
+
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
