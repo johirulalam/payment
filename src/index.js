@@ -30,13 +30,14 @@
 
 
 require('./services/payments/index'); // This registers the providers first
+require('./services/webhooks/index'); // This registers the providers first
 
 // Assuming these classes are located in their respective files
-const PaymentFactory = require('./factory/PaymentFactory');
-const WebhookProcessor = require('./processor/WebhookProcessor');
+const PaymentProcessor  = require('./services/payments/PaymentProcessor');
+const WebhookProcessor = require('./services/webhooks/WebhookProcessor');
 
 // Export the necessary parts of the package
 module.exports = {
-    PaymentFactory,
+    PaymentProcessor,
     WebhookProcessor
 };
