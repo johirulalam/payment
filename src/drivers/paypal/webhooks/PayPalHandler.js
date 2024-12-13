@@ -1,4 +1,24 @@
-class PayPalHandler {
+const WebhookProcessor = require('../../../services/webhooks/WebhookProcessor');
+class PayPalHandler extends WebhookProcessor {
+
+    async process(payload, headers) {
+        try {
+
+            
+            // Validate the payload and headers
+            const isValid = this.validate(payload, headers);
+            if (!isValid) {
+                throw new Error("Invalid webhook signature");
+            }
+
+            // Transform the payload
+            return this.transform(payload);
+        } catch (error) {
+            console.error("Error processing webhook:", error.message);
+            throw error; // Re-throw the error to let the caller handle it
+        }
+    }
+
     validate(payload, headers) {
         const authHeader = headers["authorization"];
         if (!authHeader) {

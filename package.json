@@ -1,5 +1,5 @@
 {
-  "name": "payment",
+  "name": "sayed-payment",
   "version": "1.0.0",
   "description": "A payment integration service with Stripe, PayPal, and other payment gateways.",
   "main": "src/index.js",
@@ -13,7 +13,7 @@
     "url": "git+https://github.com/johirulalam/payment.git"
   },
   "keywords": [
-    "payment",
+    "sayed-payment",
     "stripe",
     "paypal",
     "integration",

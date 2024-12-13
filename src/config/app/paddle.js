@@ -15,9 +15,8 @@ module.exports = {
       vendorAuthCode: process.env.PADDLE_VENDOR_AUTH_CODE,
       publicKey: process.env.PADDLE_PUBLIC_KEY,
     },
+    webhook_secret: process.env.PADDLE_WEBHOOK_SECRET,
   },
 
   environment: process.env.PAYMENT_ENVIRONMENT || 'sandbox',
-  
-  webhook: process.env.PADDLE_WEBHOOK_URL,
 };

@@ -1,24 +1,15 @@
-const ProviderIdentifier = require("./ProviderIdentifier");
-const paymentRegistry = require("../../registry/PaymentRegistry");
-
 class WebhookProcessor {
-    constructor(headers) {
-        // Identify the provider from headers
-        const providerName = ProviderIdentifier.identify(headers);
-
-        // Retrieve the handler (adapter) from the registry
-        this.handler = paymentRegistry.getAdapter(providerName);
-        if (!this.handler) {
-            throw new Error(`Unsupported provider: ${providerName}`);
-        }
-    }
 
     process(payload, headers) {
-        // Validate the payload and headers
-        this.handler.validate(payload, headers);
+        throw new Error("process webhook method must be implemented");
+    }
 
-        // Transform the payload
-        return this.handler.transform(payload);
+    validate(payload, headers) {
+        throw new Error("validate webhook webhook method must be implemented");
+    }
+    
+    transform(payload) {
+        throw new Error("transform webhook method must be implemented");
     }
 }
 

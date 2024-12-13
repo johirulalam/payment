@@ -1,20 +1,29 @@
+const ProviderIdentifier = require("../services/webhooks/ProviderIdentifier");
 class WebhookRegistry {
-    static providers = {};
-
-    static registerProvider(providerName, handler) {
-        if (this.providers[providerName]) {
-            throw new Error(`Webhook provider ${providerName} is already registered.`);
+    constructor() {
+        this.adapters = new Map();
+    }
+    
+    registerProvider(providerName, adapterClass) {
+    
+        if (this.adapters.has(providerName)) {
+            throw new Error(`Provider ${providerName} is already registered.`);
         }
-        this.providers[providerName] = handler;
+        this.adapters.set(providerName, adapterClass);
     }
 
-    static getHandler(providerName) {
-        const handler = this.providers[providerName];
-        if (!handler) {
-            throw new Error(`Webhook provider ${providerName} not found.`);
+    getProvider(headers) {
+
+        const providerName = ProviderIdentifier.identify(headers);
+
+        console.log(`Looking for provider: ${providerName}`);
+        const AdapterClass = this.adapters.get(providerName);
+        
+        if (!AdapterClass) {
+            throw new Error(`Provider ${providerName} is not registered.`);
         }
-        return handler;
+        return new AdapterClass();
     }
 }
 
-module.exports = WebhookRegistry;
+module.exports = new WebhookRegistry();
